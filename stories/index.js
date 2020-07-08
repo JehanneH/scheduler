@@ -9,7 +9,8 @@ import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
-import InterviewerList from "components/InterviewerList"
+import InterviewerList from "components/InterviewerList";
+import Appointment from "components/Appointment";
 
 storiesOf("Button", module)
   .addParameters({
@@ -93,13 +94,13 @@ storiesOf("InterviewerListItem", module)
     />
   ))
   .add("Clickable", () => (
-    <InterviewerListItem
-      id={interviewer.id}
-      name={interviewer.name}
-      avatar={interviewer.avatar}
-      setInterviewer={event => action("setInterviewer")(interviewer.id)}
-    />
-  ));
+  <InterviewerListItem
+    id={interviewer.id}
+    name={interviewer.name}
+    avatar={interviewer.avatar}
+    setInterviewer={event => action("setInterviewer")(interviewer.id)}
+  />
+));
 
   const interviewers = [
     { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
@@ -126,3 +127,10 @@ storiesOf("InterviewerListItem", module)
         setInterviewer={action("setInterviewer")}
       />
     ));
+
+    storiesOf("Appointment", module)
+    .addParameters({
+      backgrounds: [{ name: "white", value: "#fff", default: true }]
+    })
+    .add("Appointment", () => <Appointment />)
+    .add("Appointment with Time", () => <Appointment time="12pm" />);
