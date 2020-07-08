@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import "components/Appointment/styles.scss";
 
 import Header from "components/Appointment/Header";
@@ -16,7 +16,6 @@ export default function Appointment(props) {
           onEdit={props.onEdit}
           onDelete={props.onDelete}
         /> : <Empty />}
-    
   </article>
   )
 }
