@@ -15,6 +15,7 @@ import Header from "components/Appointment/Header";
 import Empty from "components/Appointment/Empty";
 import Show from "components/Appointment/Show";
 import Confirm from "components/Appointment/Confirm";
+import Status from "components/Appointment/Status";
 
 storiesOf("Button", module)
   .addParameters({
@@ -142,7 +143,7 @@ storiesOf("InterviewerListItem", module)
     .add("Empty", () => <Empty onAdd={action("onAdd")} />)
     .add("Show", () => (
       <Show 
-        student={"Lydia Miller-Jones"}
+        student="Lydia Miller-Jones"
         interviewer={interviewers}
         onEdit={action("onEdit")}
         onDelete={action("onDelete")}
@@ -154,4 +155,6 @@ storiesOf("InterviewerListItem", module)
         onConfirm={action("onConfirm")}
         onCancel={action("onCancel")}
       />
-    )) 
+    ))
+    .add("Deleting", () => <Status message="Deleting" />)
+    .add("Saving", () => <Status message="Saving" />)
