@@ -8,6 +8,7 @@ import Empty from "components/Appointment/Empty";
 import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
+import Error from "components/Appointment/Error"
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -16,6 +17,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 
 
@@ -26,15 +29,18 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-
     transition(SAVING)
     props.bookInterview(props.id, interview)
       .then(() => {transition(SHOW)})
+      .catch(error => {transition(ERROR_SAVE, true)})
   }
 
-  function deleteInterview() {
-    props.cancelInterview(props.id, transition(DELETING))
-      .then(() => {transition(EMPTY)})
+  function deleteInterview(event) {
+    transition(DELETING);
+    props.cancelInterview(props.id)
+      .then(() => 
+      transition(EMPTY))
+      .catch(error => {transition(ERROR_DELETE, true)})
   }
 
 
@@ -77,6 +83,18 @@ export default function Appointment(props) {
         interviewer={props.interview.interviewer.id}
         onSave={save}
         onCancel={back}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error 
+          message="Could not save appointment."
+          onClose={back}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error 
+          message="Could not delete appointment."
+          onClose={back}
         />
       )}
   </article>

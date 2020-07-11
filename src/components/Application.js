@@ -32,16 +32,18 @@ export default function Application(props) {
       [id]: appointment
     };
     return axios.put(`/api/appointments/${id}`, appointment)
-      .then((response) => {
-        // console.log(response);
+      .then(() =>
         setState({
           ...state,
           appointments
-        });
-      });
+        })
+      )
+      .catch((error) => {
+        return Promise.reject(error);
+      })
   }
  
-  function cancelInterview(id, interview) {
+  function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -51,14 +53,16 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    return axios.delete(`/api/appointments/${id}`, appointment)
-      .then((response) => {
-        // console.log(response);
+    return axios.delete(`/api/appointments/${id}`)
+      .then(() =>
         setState({
           ...state,
           appointments
-        });
-      });
+        })
+      )
+      .catch((error) => {
+        return Promise.reject(error);
+      })
   }
 
   const schedule = appointments.map((appointment, index) => {
@@ -76,18 +80,16 @@ export default function Application(props) {
       )
   })
 
-  
-  
  useEffect(() => {
   const daysPromise = axios.get(`/api/days`)
   const appointmentsPromise = axios.get(`/api/appointments`)
   const interviewersPromise = axios.get(`/api/interviewers`)
 
   Promise.all([daysPromise, appointmentsPromise, interviewersPromise]).then((all) => {
-
+    
     setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
-
     });
+    
   }, []);
 
  
