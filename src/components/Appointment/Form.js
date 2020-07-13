@@ -8,13 +8,15 @@ export default function Form(props) {
   const [error, setError] = useState("");
 
   function validate() {
+
     if (name === "") {
       setError("Student name cannot be blank");
       return;
     }
-    setError("")
+    setError("");
     props.onSave(name, interviewer);
   }
+  
   const reset = () => {
     setName("");
     setInterviewer(null);
@@ -25,6 +27,9 @@ export default function Form(props) {
     props.onCancel();
   };
   
+const onSubmit = () => {
+  validate();
+}
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -51,7 +56,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={validate}>Save</Button>
+          <Button confirm onClick={onSubmit}>Save</Button>
         </section>
       </section>
     </main>
