@@ -15,7 +15,8 @@ export default function useApplicationData() {
   function updateSpots() {
     axios.get("/api/days")
     .then((response) => {
-        setState(prev => ({ ...prev, days: response.data }))
+        setState(prev => {
+          return ({ ...prev, days: response.data })})
       })
       .catch((error) => {
         return Promise.reject(error);

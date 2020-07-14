@@ -2,7 +2,7 @@ import React from "react";
 
 import { render, cleanup, fireEvent, waitForElement, prettyDOM } from "@testing-library/react";
 
-import { getByText, getAllByTestId, getByPlaceholderText, getByAltText } from "@testing-library/react";
+import { getByText, getAllByTestId, getByPlaceholderText, getByAltText, queryByText } from "@testing-library/react";
 
 
 
@@ -21,7 +21,7 @@ describe("Application", () => {
    expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
 
-  it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
+  it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     const { container, debug } = render (<Application />); 
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -35,12 +35,23 @@ describe("Application", () => {
       target: { value: "Lydia Miller-Jones" }
     });
 
+   
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
     fireEvent.click(getByText(appointment, "Save"));
 
-    console.log(prettyDOM(appointment));
-  
+    expect(getByText(appointment, "saving")).toBeInTheDocument();
+
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
+
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+    // console.log(prettyDOM(day));
+    
+    // not sure if this part is necessary if i use the api to update the spots and didn't calculate them locally.
+    // expect(getByText(day, "no spots remaining")).toBeInTheDocument();
+    
   })
 
 })
