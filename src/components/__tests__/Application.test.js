@@ -113,10 +113,6 @@ describe("Application", () => {
     expect(getByText(appointment, "saving")).toBeInTheDocument();
 
     await waitForElement(() => getByText(appointment, "Jehanne"));
-
-    // const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday")
-    // )
-    // expect(getByText(day, "1 spots remaining")).toBeInTheDocument();
   })
 
   it("shows the save error when failing to save an appointment", async () => {
