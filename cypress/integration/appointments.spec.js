@@ -1,15 +1,15 @@
 describe("Appointments", () => {
   beforeEach(() => {
-    cy.request("GET", "/api/debug/reset")
+    cy.request("GET", "/api/debug/reset");
     cy.visit("/");
     cy.contains("Monday");
   })
-  xit("should book an interview", () => {
+  it("should book an interview", () => {
     
     // clicks the add button for the empty appointment
     cy.get("[alt=Add]")
       .first()
-      .click()
+      .click();
 
     // types in a student name
     cy.get("[data-testid=student-name-input]")
@@ -28,7 +28,7 @@ describe("Appointments", () => {
     cy.contains(".appointment__card--show", "Sylvia Palmer");
   });
   
-  xit('should edit an interview', () => {
+  it('should edit an interview', () => {
 
     // get edit button and click
     cy.get("[alt=Edit]")

@@ -1,14 +1,14 @@
 import React from "react";
 import "components/Appointment/styles.scss";
 
-import useVisualMode from "hooks/useVisualMode"
+import useVisualMode from "hooks/useVisualMode";
 import Header from "components/Appointment/Header";
 import Show from "components/Appointment/Show";
 import Empty from "components/Appointment/Empty";
 import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
-import Error from "components/Appointment/Error"
+import Error from "components/Appointment/Error";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -29,19 +29,19 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    transition(SAVING)
+    transition(SAVING);
     props.bookInterview(props.id, interview)
       .then(() => {transition(SHOW)})
-      .catch(error => {transition(ERROR_SAVE, true)})
-  }
+      .catch(error => {transition(ERROR_SAVE, true)});
+  };
 
   function deleteInterview(event) {
     transition(DELETING);
     props.cancelInterview(props.id)
       .then(() => 
       transition(EMPTY))
-      .catch(error => {transition(ERROR_DELETE, true)})
-  }
+      .catch(error => {transition(ERROR_DELETE, true)});
+  };
 
 
   const { mode, transition, back } = useVisualMode(
@@ -99,7 +99,7 @@ export default function Appointment(props) {
         />
       )}
   </article>
-  )
-}
+  );
+};
 
  

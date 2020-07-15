@@ -8,19 +8,23 @@ export default function Form(props) {
   const [error, setError] = useState("");
 
   function validate() {
-
     if (name === "") {
       setError("Student name cannot be blank");
       return;
     }
-    setError("");
+    if (!interviewer || interviewer === 0) {
+      setError("Please select an interviewer");
+      return;
+    }
+    reset();
     props.onSave(name, interviewer);
-  }
+  };
   
   const reset = () => {
     setName("");
     setInterviewer(null);
-  }
+    setError("");
+  };
 
   const cancel = () => {
     reset();
@@ -29,7 +33,7 @@ export default function Form(props) {
   
 const onSubmit = () => {
   validate();
-}
+};
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -43,11 +47,6 @@ const onSubmit = () => {
           onChange={(event) => setName(event.target.value)}
           value={name}
           data-testid="student-name-input"
-
-          
-          /*
-            This must be a controlled component
-          */
           />
         </form>
         <section className="appointment__validation">{error}</section>
@@ -60,5 +59,5 @@ const onSubmit = () => {
         </section>
       </section>
     </main>
-  )
-}
+  );
+};

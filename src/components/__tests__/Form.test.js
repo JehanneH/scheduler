@@ -82,5 +82,5 @@ describe("Form", () => {
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     expect(getByPlaceholderText("Enter Student Name")).toHaveValue("");
     expect(onCancel).toHaveBeenCalledTimes(1);
-  })
+  });
 });

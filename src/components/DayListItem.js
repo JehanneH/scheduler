@@ -6,8 +6,8 @@ const classnames = require('classnames');
 export default function DayListItem(props) {
   
   const formatSpots = (props) => {
-    return props.spots === 0 ? "no spots remaining" : props.spots === 1 ? "1 spot remaining" : `${props.spots} spots remaining`
-  }
+    return props.spots === 0 ? "no spots remaining" : props.spots === 1 ? "1 spot remaining" : `${props.spots} spots remaining`;
+  };
 
 
   const dayClass = classnames("day-list__item", {
@@ -21,8 +21,4 @@ export default function DayListItem(props) {
       <h3>{formatSpots(props)}</h3>
     </li>
   );
-}
-
-// <li> represents the entire day item
-// <h2> should display the day name
-// <h3> should display the spots remaining for a day
+};
