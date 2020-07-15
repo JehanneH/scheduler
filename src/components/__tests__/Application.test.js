@@ -4,7 +4,7 @@ import { render, cleanup, fireEvent, waitForElement, prettyDOM } from "@testing-
 
 import { getByText, getAllByTestId, getByPlaceholderText, getByAltText, queryByText } from "@testing-library/react";
 
-
+import axios from "axios";
 
 import Application from "components/Application";
 
@@ -44,9 +44,9 @@ describe("Application", () => {
 
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
 
-    const day = getAllByTestId(container, "day").find(day =>
-      queryByText(day, "Monday")
-    );
+    // const day = getAllByTestId(container, "day").find(day =>
+    //   queryByText(day, "Monday")
+    // );
     // console.log(prettyDOM(day));
     
     // not sure if this part is necessary if i use the api to update the spots and didn't calculate them locally. idk if i should keep this whole test here, cause that's the point of it...
@@ -80,8 +80,9 @@ describe("Application", () => {
     await waitForElement(() => getByAltText(appointment, "Add"));
 
     // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
-    const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday")
-    )
+
+    // const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday")
+    // )
 
     // didn't update locally and used the api to update the spots so this test passes up until this last line. not sure if i need this test, like the last??
 
@@ -113,9 +114,58 @@ describe("Application", () => {
 
     await waitForElement(() => getByText(appointment, "Jehanne"));
 
-    const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday")
-    )
+    // const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday")
+    // )
     // expect(getByText(day, "1 spots remaining")).toBeInTheDocument();
   })
+
+  it("shows the save error when failing to save an appointment", async () => {
+    axios.put.mockRejectedValueOnce();
+    const { container, debug } = render(<Application />);
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+    
+    fireEvent.click(getByAltText(appointment, "Edit"));
+
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Jehanne" }
+    });
+
+    fireEvent.click(getByText(appointment, "Save"));
+
+    expect(getByText(appointment, "saving")).toBeInTheDocument();
+
+
+    await waitForElement(() => getByText(appointment, "Could not save appointment."))
+
+    expect (getByText(appointment, "Could not save appointment.")).toBeInTheDocument();
+  });
+
+  it("shows the delete error when failing to delete an appointment", async () => {
+    axios.delete.mockRejectedValueOnce();
+
+    const { container, debug } = render (<Application />);
+
+    await waitForElement(() => getByText(container, "Archie Cohen"));
    
+    const appointment = getAllByTestId(container, "appointment").find(
+      appointment => queryByText(appointment, "Archie Cohen")
+    );
+    fireEvent.click(getByAltText(appointment, "Delete"));
+
+    expect(getByText(appointment, "Delete the appointment?")).toBeInTheDocument();
+
+    fireEvent.click(getByText(appointment, "Confirm"));
+    
+    expect(getByText(appointment, "deleting")).toBeInTheDocument();
+
+    await waitForElement(() => getByText(appointment, "Could not delete appointment."))
+
+    expect(getByText(appointment, "Could not delete appointment.")).toBeInTheDocument();
+   
+  });
 })
