@@ -21,7 +21,7 @@ describe("Application", () => {
    expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
 
-  it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
+  it("loads data and books an interview", async () => {
     const { container } = render (<Application />); 
 
     await waitForElement(() => getByText(container, "Archie Cohen"));
@@ -43,18 +43,10 @@ describe("Application", () => {
     expect(getByText(appointment, "saving")).toBeInTheDocument();
 
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
-
-    // const day = getAllByTestId(container, "day").find(day =>
-    //   queryByText(day, "Monday")
-    // );
-    // console.log(prettyDOM(day));
-    
-    // not sure if this part is necessary if i use the api to update the spots and didn't calculate them locally. idk if i should keep this whole test here, cause that's the point of it...
-    // expect(getByText(day, "no spots remaining")).toBeInTheDocument();
     
   });
 
-  it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
+  it("loads data and cancels an interview", async () => {
     // 1. Render the Application.
     const { container } = render (<Application />);
 
@@ -79,17 +71,9 @@ describe("Application", () => {
     // 7. Wait until the element with the "Add" button is displayed.
     await waitForElement(() => getByAltText(appointment, "Add"));
 
-    // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
-
-    // const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday")
-    // )
-
-    // didn't update locally and used the api to update the spots so this test passes up until this last line. not sure if i need this test, like the last??
-
-    // expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   });
 
-  it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
+  it("loads data and edits an interview", async () => {
    
     const { container } = render (<Application />);
 
@@ -136,7 +120,7 @@ describe("Application", () => {
     expect(getByText(appointment, "saving")).toBeInTheDocument();
 
 
-    await waitForElement(() => getByText(appointment, "Could not save appointment."))
+    await waitForElement(() => getByText(appointment, "Could not save appointment."));
 
     expect (getByText(appointment, "Could not save appointment.")).toBeInTheDocument();
   });
@@ -159,7 +143,7 @@ describe("Application", () => {
     
     expect(getByText(appointment, "deleting")).toBeInTheDocument();
 
-    await waitForElement(() => getByText(appointment, "Could not delete appointment."))
+    await waitForElement(() => getByText(appointment, "Could not delete appointment."));
 
     expect(getByText(appointment, "Could not delete appointment.")).toBeInTheDocument();
    
