@@ -4,6 +4,11 @@ The Interview Scheduler a React application that allows users to book and cancel
 
 This project was created and published by me as part of my learnings at [Lighthouse Labs.](https://www.lighthouselabs.ca/)
 
+## Technical Specifications
+- React
+- Webpack, Babel
+- Axios, WebSockets
+- Storybook, Webpack Dev Server, Jest, Cypress
 
 ## Functional Requirements
 - Development focuses on a single page application (SPA) called Interview Scheduler, built using React.
@@ -11,11 +16,13 @@ This project was created and published by me as part of my learnings at [Lightho
 - The client application communicates with an API server over HTTP, using the JSON format.
 - Jest tests are used through the development of the project.
 
-## Technical Specifications
-- React
-- Webpack, Babel
-- Axios, WebSockets
-- Storybook, Webpack Dev Server, Jest, Cypress
+## Behavioural Requirements
+- Interviews can be booked between Monday and Friday.
+- Interviews are booked by typing in a student name and clicking on an interviewer from a list of available interviewers.
+- A user can cancel or edit an existing interview.
+- The list of days informs the user how many slots are available for each day and will update when an appointment is created or cancelled.
+- A user is shown an error if an interview cannot be saved or deleted.
+- A user is shown a status indicator while asynchronous operations are in progress.
 
 ## Setup
 
