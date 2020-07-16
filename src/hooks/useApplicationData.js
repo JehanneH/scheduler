@@ -1,70 +1,71 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function useApplicationData() {
-
-  const [state, setState] = useState ({
+  const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {},
-    interviewers: {}
+    interviewers: {},
   });
 
-  const setDay = day => setState({ ...state, day });
+  const setDay = (day) => setState({ ...state, day });
 
   function updateSpots() {
-    axios.get("/api/days")
-    .then((response) => {
-        setState(prev => {
-          return ({ ...prev, days: response.data })})
+    axios
+      .get("/api/days")
+      .then((response) => {
+        setState((prev) => {
+          return { ...prev, days: response.data };
+        });
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-  };
-
+  }
 
   function bookInterview(id, interview) {
-   
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview }
+      interview: { ...interview },
     };
     const appointments = {
       ...state.appointments,
-      [id]: appointment
+      [id]: appointment,
     };
-    return axios.put(`/api/appointments/${id}`, appointment)
+    return axios
+      .put(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState({
           ...state,
-          appointments
+          appointments,
         });
         updateSpots();
       })
-        .catch((error) => {
-          return Promise.reject(error);
+      .catch((error) => {
+        return Promise.reject(error);
       });
   }
 
   function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
-      interview: null
+      interview: null,
     };
     const appointments = {
       ...state.appointments,
-      [id]: appointment
+      [id]: appointment,
     };
 
-    return axios.delete(`/api/appointments/${id}`)
-    .then(() => {
-      setState({
-        ...state,
-        appointments
-      });
-      updateSpots();
-    })
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => {
+        setState({
+          ...state,
+          appointments,
+        });
+        updateSpots();
+      })
       .catch((error) => {
         return Promise.reject(error);
       });
@@ -74,16 +75,20 @@ export default function useApplicationData() {
     const daysPromise = axios.get(`/api/days`);
     const appointmentsPromise = axios.get(`/api/appointments`);
     const interviewersPromise = axios.get(`/api/interviewers`);
-  
-    Promise.all([daysPromise, appointmentsPromise, interviewersPromise]).then((all) => {
-      
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
+
+    Promise.all([daysPromise, appointmentsPromise, interviewersPromise])
+      .then((all) => {
+        setState((prev) => ({
+          ...prev,
+          days: all[0].data,
+          appointments: all[1].data,
+          interviewers: all[2].data,
+        }));
       })
       .catch((error) => {
         return Promise.reject(error);
       });
-      
-    }, []);
+  }, []);
 
-  return {state, setDay, bookInterview, cancelInterview};
-};
+  return { state, setDay, bookInterview, cancelInterview };
+}
