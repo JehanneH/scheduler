@@ -39,3 +39,15 @@ npm test
 npm run storybook
 ```
 ## Screenshots
+
+### Create a new appointment, specify student name and select an interviewer:
+!["create a new appointment"](https://github.com/JehanneH/scheduler/blob/master/docs/createnewappointment.png?raw=true)
+
+### Created appointment, when hovered over the edit and delete features are revealed:
+!["appointment created"](https://github.com/JehanneH/scheduler/blob/master/docs/hoverviewofappointment.png?raw=true)
+
+### If student wishes to delete appointment they will be asked for confirmation:
+!["confirm before deleting appointment"](https://github.com/JehanneH/scheduler/blob/master/docs/confirmbeforedelete.png?raw=true)
+
+### Error handling when appointment cannot be saved:
+!["error handling"](https://github.com/JehanneH/scheduler/blob/master/docs/errorhandling.png?raw=true)
